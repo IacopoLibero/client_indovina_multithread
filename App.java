@@ -4,10 +4,6 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
@@ -15,19 +11,19 @@ public class App
         try 
         { 
             System.out.println( "Il client è partito" );
-            Socket socket = new Socket("localhost", 4567); //creo il socket e lo connetto al server
+            Socket socket = new Socket("172.20.10.2", 4567); //creo il socket e lo connetto al server
             
-            Scanner input = new Scanner(System.in); 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            Scanner input = new Scanner(System.in); //creo scanner
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream())); //creo bufferedreader che riceve dal server
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());//creo bufferedreader che riceve dal server
             System.out.println( "Connessione effettuata" );
             int risposta = 0;
             do 
             {
                 System.out.println( "Inserisci il numero: " );
                 String n = input.nextLine();
-                out.writeBytes(n+"\n");
-                String confronto = in.readLine();
+                out.writeBytes(n+"\n"); //invia al server
+                String confronto = in.readLine(); //riceve dal server
                 risposta = Integer.parseInt(confronto);
                 if(risposta == 1)
                 {
@@ -39,13 +35,11 @@ public class App
                 }
                 if(risposta == 3)
                 {
-                    String c = in.readLine();
-                    int r = Integer.parseInt(c);
-                    System.out.println( "Numero indovinato in "+r+" tentativi" );
+                    System.out.println( "Numero indovinato" );
                 }
             } while (risposta != 3);
-            input.close();
-            socket.close();
+            input.close(); //chiudo scanner
+            socket.close(); //termino soket
         } 
         catch (Exception e)
         {
